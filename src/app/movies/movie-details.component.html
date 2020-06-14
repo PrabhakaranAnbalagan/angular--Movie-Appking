@@ -1,0 +1,106 @@
+<div class="card" *ngIf="movie">
+  <div class="card-header">
+    {{ pageTitle }}
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-12 col-md-8">
+        <table class="table table-hover table-light">
+          <thead>
+            <tr>
+              <th scope="col" colspan="2">
+                <h2 class="text-center text-uppercase">{{ movie.Name }}</h2>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="text-center">Genre</td>
+              <td>{{ Genres[movie.Genre] }}</td>
+            </tr>
+            <tr>
+              <td class="text-center">Language</td>
+              <td>{{ Languages[movie.Language] }}</td>
+            </tr>
+            <tr>
+              <td class="text-center">Duration</td>
+              <td>{{ movie.Duration | DisplayDurationPipe: "." }}</td>
+            </tr>
+            <tr>
+              <td class="text-center">Star Rating</td>
+              <td><ak-star [rating]="movie.StarRating"></ak-star></td>
+            </tr>
+            <tr>
+              <td class="text-center">Director</td>
+              <td>{{ movie.Director }}</td>
+            </tr>
+            <tr>
+              <td class="text-center">Writers</td>
+              <td>{{ movie.Writers }}</td>
+            </tr>
+            <tr>
+              <td class="text-center">Release Date</td>
+              <td>{{ movie.ReleaseDate }}</td>
+            </tr>
+            <tr>
+              <td class="text-center">Imdb Link</td>
+              <td><a href="{{ movie.ImdbLink }}" target="_blank">link</a></td>
+            </tr>
+            <tr>
+              <td class="text-center">Wiki Link</td>
+              <td><a href="{{ movie.WikiLink }}" target="_blank">link</a></td>
+            </tr>
+            <tr>
+              <td class="text-center">Available In Amazon</td>
+              <td>
+                <input
+                  type="checkbox"
+                  checked="{{ movie.AvailableInAmazon }}"
+                  readonly
+                />
+              </td>
+            </tr>
+            <tr>
+              <td class="text-center">Available In Netflix</td>
+              <td>
+                <input
+                  type="checkbox"
+                  value="{{ movie.AvailableInNetflix }}"
+                  readonly
+                />
+              </td>
+            </tr>
+            <tr>
+              <td class="text-center">Available In Hotstar</td>
+              <td>
+                <input
+                  type="checkbox"
+                  value="{{ movie.AvailableInHotstar }}"
+                  readonly
+                />
+              </td>
+            </tr>
+            <tr>
+              <th scope="col" colspan="2">
+                <button
+                  class="btn btn-dark align-content-md-end"
+                  (click)="OnBack()"
+                >
+                  <i class="fa fa-chevron-left"></i> Back
+                </button>
+              </th>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-6 col-md-4 col align-self-center">
+        <img
+          class="img-fluid img-thumbnail rounded mx-auto d-block"
+          [src]="movie.ImageUrl"
+          title="{{ movie.Name | uppercase }}"
+          alt="{{ movie.Name }}"
+        />
+      </div>
+    </div>
+  </div>
+</div>

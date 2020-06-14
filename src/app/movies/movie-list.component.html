@@ -1,0 +1,70 @@
+<div class="card">
+  <div class="card-header">
+    {{ title }}
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-2">Filter by:</div>
+      <div class="col-md-4">
+        <input type="text" [(ngModel)]="filterText" />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <h4>Filtered by: {{ filterText }}</h4>
+      </div>
+    </div>
+    <div class="table-responsive">
+      <table class="table" *ngIf="filteredMovies && filteredMovies.length">
+        <thead>
+          <tr>
+            <th>
+              <button class="btn btn-primary" (click)="toogleImage()">
+                {{ showImage ? "Hide" : "Show" }} Image
+              </button>
+            </th>
+            <th>Name</th>
+            <th>Genre</th>
+            <th>Language</th>
+            <th>Duration</th>
+            <th>Rating</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let movie of filteredMovies">
+            <td>
+              <img
+                *ngIf="showImage"
+                [src]="movie.ImageUrl"
+                title="{{ movie.Name | uppercase }}"
+                alt="{{ movie.Name }}"
+                [style.width.px]="imageWidth"
+                [style.margin.px]="imageMargin"
+              />
+            </td>
+            <td>
+              <a class="btn btn-link" [routerLink]="['/movies', movie.Id]">{{
+                movie.Name
+              }}</a>
+            </td>
+            <td>{{ Genres[movie.Genre] }}</td>
+            <td>{{ Languages[movie.Language] }}</td>
+            <td>{{ movie.Duration | DisplayDurationPipe: "." }}</td>
+            <td>
+              <ak-star
+                [rating]="movie.StarRating"
+                (notifyParent)="notify($event)"
+              ></ak-star>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <!-- <mat-paginator
+        [length]="length"
+        [pageSize]="pageSize"
+        [pageSizeOptions]="pageSizeOptions"
+      >
+      </mat-paginator> -->
+    </div>
+  </div>
+</div>
