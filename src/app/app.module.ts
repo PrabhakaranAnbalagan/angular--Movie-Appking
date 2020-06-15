@@ -26,7 +26,7 @@ import { MovieModule } from './movies/movie.module';
       { path: 'welcome', component: WelcomeComponent },
       { path: '', redirectTo: 'welcome', pathMatch: 'full' },
       { path: '**', component: PageNotFoundComponent },
-    ]),
+    ], {useHash: true}), //for server to fix refresh issue
     MovieModule,
   ],
 
