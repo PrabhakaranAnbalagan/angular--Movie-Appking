@@ -1,0 +1,392 @@
+<div class="card">
+  <div class="card-header">
+    {{pageTitle}}
+  </div>
+
+  <div class="card-body">
+    <form novalidate (ngSubmit)="save()" [formGroup]="movieForm">
+      <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label" for="movieNameId"
+          >Movie Name</label
+        >
+        <div class="col-md-8">
+          <input
+            class="form-control"
+            id="movieNameId"
+            type="text"
+            placeholder="Movie Name (required)"
+            formControlName="Name"
+            [ngClass]="{
+              'is-invalid':
+                (movieForm.get('Name').touched ||
+                  movieForm.get('Name').dirty) &&
+                !movieForm.get('Name').valid
+            }"
+          />
+          <span class="invalid-feedback">
+            <span *ngIf="movieForm.get('Name').errors?.required">
+              Please enter Movie name.
+            </span>
+            <span *ngIf="movieForm.get('Name').errors?.minlength">
+              The Movie name must be longer than 3 characters.
+            </span>
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label" for="GenreId">Genre</label>
+        <div class="col-md-8">
+          <select class="form-control" id="GenreId" formControlName="Genre">
+            <option value="" disabled selected hidden
+              >Select a Genre (required)</option
+            >
+            <option
+              *ngFor="let key of genreTypeOptions"
+              [value]="key"
+              [label]="genreTypes[key]"
+            ></option>
+          </select>
+          <span class="invalid-feedback">
+            <span *ngIf="movieForm.get('Genre').errors?.required">
+              Please select a Genre.
+            </span>
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label" for="LanguageId">Language</label>
+        <div class="col-md-8">
+          <select
+            class="form-control"
+            id="LanguageId"
+            formControlName="Language"
+          >
+            <option value="" disabled selected hidden
+              >Select a Language (required)</option
+            >
+            <option
+              *ngFor="let key of languageTypeOptions"
+              [value]="key"
+              [label]="languageTypes[key]"
+            ></option>
+          </select>
+          <span class="invalid-feedback">
+            <span *ngIf="movieForm.get('Language').errors?.required">
+              Please select a Language.
+            </span>
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label" for="durationId">Duration</label>
+        <div class="col-md-8">
+          <input
+            class="form-control"
+            id="durationId"
+            type="text"
+            placeholder="Duration in [h.mm] (required)"
+            formControlName="Duration"
+            [ngClass]="{
+              'is-invalid':
+                (movieForm.get('Duration').touched ||
+                  movieForm.get('Duration').dirty) &&
+                !movieForm.get('Duration').valid
+            }"
+          />
+          <span class="invalid-feedback">
+            <span *ngIf="movieForm.get('Duration').errors?.durationvalidator">
+              Please enter valid duration of the movie in [h.mm].
+            </span>
+          </span>
+          <span class="invalid-feedback">
+            <span *ngIf="movieForm.get('Duration').errors?.required">
+              Please enter duration of the movie.
+            </span>
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label" for="starRatingId"
+          >Star Rating ( 1 - 10 )</label
+        >
+        <div class="col-md-8">
+          <input
+            class="form-control"
+            id="starRatingId"
+            type="text"
+            placeholder="Star Rating (required)"
+            formControlName="StarRating"
+            [ngClass]="{
+              'is-invalid':
+                (movieForm.get('StarRating').touched ||
+                  movieForm.get('StarRating').dirty) &&
+                !movieForm.get('StarRating').valid
+            }"
+          />
+          <span class="invalid-feedback">
+            <span *ngIf="movieForm.get('StarRating').errors?.rangevalidator">
+              Please enter Star Rating from 1 to 10.
+            </span>
+          </span>
+          <span class="invalid-feedback">
+            <span *ngIf="movieForm.get('StarRating').errors?.required">
+              Please enter Star Rating of the movie.
+            </span>
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label" for="directorId">Director</label>
+        <div class="col-md-8">
+          <input
+            class="form-control"
+            id="directorId"
+            type="text"
+            placeholder="Director Name (required)"
+            formControlName="Director"
+            [ngClass]="{
+              'is-invalid': directorMessage
+            }"
+          />
+          <span class="invalid-feedback">
+            {{ directorMessage }}
+          </span>
+        </div>
+      </div>
+
+      <div
+        formArrayName="writers"
+        *ngFor="let writer of writers.controls; let i = index"
+      >
+        <div class="form-group row mb-2">
+          <label
+            class="col-md-2 col-form-label"
+            attr.for="{{ 'writersId' + i }}"
+            >Writer(s)</label
+          >
+          <div class="col-md-8">
+            <input
+              class="form-control"
+              id="{{ 'writersId' + i }}"
+              type="text"
+              placeholder="Writer Name (required)"
+              [formControlName]="i"
+              [ngClass]="{
+                'is-invalid': (writer.touched || writer.dirty) && !writer.valid
+              }"
+            />
+            <span class="invalid-feedback">
+              <span *ngIf="writer.errors?.required">
+                Please enter writers name.
+              </span>
+            </span>
+          </div>
+          <button class="col-md-1 btn btn-outline-warning btn-sm"
+                  type="button"
+                  title="Delete this Writer"
+                  [hidden] = 'writers.length === 1'
+                  (click)="deleteWriter(i)">Delete writer
+          </button>
+        </div>
+      </div>
+      <div class="offset-2">
+        <button
+          type="button"
+          [disabled]="!writers.valid"
+          [title]="
+            !writers.valid
+              ? 'Disabled until the Writer name is added'
+              : 'Add Writer'
+          "
+          class="button btn-primary rounded"
+          (click)="addWriter()"
+        >
+          Add Writer
+        </button>
+      </div>
+
+      <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label" for="releaseDateId"
+          >Release Date</label
+        >
+        <div class="col-md-8">
+          <input
+            class="form-control"
+            id="releaseDateId"
+            type="date"
+            placeholder="Release Date (required)"
+            formControlName="ReleaseDate"
+            [ngClass]="{
+              'is-invalid':
+                (movieForm.get('ReleaseDate').touched ||
+                  movieForm.get('ReleaseDate').dirty) &&
+                !movieForm.get('ReleaseDate').valid
+            }"
+          />
+          <span class="invalid-feedback">
+            <span *ngIf="movieForm.get('ReleaseDate').errors?.required">
+              Please enter Release Date.
+            </span>
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label" for="imbdLinkId"
+          >Imbd Link</label
+        >
+        <div class="col-md-8">
+          <input
+            class="form-control"
+            id="imbdLinkId"
+            type="text"
+            placeholder="Imbd Link (required)"
+            formControlName="ImdbLink"
+            [ngClass]="{
+              'is-invalid':
+                (movieForm.get('ImdbLink').touched ||
+                  movieForm.get('ImdbLink').dirty) &&
+                !movieForm.get('ImdbLink').valid
+            }"
+          />
+          <span class="invalid-feedback">
+            <span *ngIf="movieForm.get('ImdbLink').errors?.required">
+              Please enter Imbd Link.
+            </span>
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label" for="wikiKinkId"
+          >wiki Link</label
+        >
+        <div class="col-md-8">
+          <input
+            class="form-control"
+            id="wikiKinkId"
+            type="text"
+            placeholder="Wiki Link (required)"
+            formControlName="WikiLink"
+            [ngClass]="{
+              'is-invalid':
+                (movieForm.get('WikiLink').touched ||
+                  movieForm.get('WikiLink').dirty) &&
+                !movieForm.get('WikiLink').valid
+            }"
+          />
+          <span class="invalid-feedback">
+            <span *ngIf="movieForm.get('WikiLink').errors?.required">
+              Please enter Wiki Link.
+            </span>
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label" for="imageUrlId">Image Link</label>
+        <div class="col-md-8">
+          <input
+            class="form-control"
+            id="imageUrlId"
+            type="text"
+            placeholder="Image Link (required)"
+            formControlName="ImageUrl"
+            [ngClass]="{
+              'is-invalid':
+                (movieForm.get('ImageUrl').touched ||
+                  movieForm.get('ImageUrl').dirty) &&
+                !movieForm.get('ImageUrl').valid
+            }"
+          />
+          <span class="invalid-feedback">
+            <span *ngIf="movieForm.get('ImageUrl').errors?.required">
+              Please enter Image Link.
+            </span>
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label" for="availableInAmazonId"
+          >Available In Amazon</label
+        >
+        <div class="col-md-8">
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              id="availableInAmazonId"
+              type="checkbox"
+              formControlName="AvailableInAmazon"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label" for="availableInNetflixId"
+          >Available In Netflix</label
+        >
+        <div class="col-md-8">
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              id="availableInNetflixId"
+              type="checkbox"
+              formControlName="AvailableInNetflix"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label" for="availableInHotstarId"
+          >Available In Hotstar</label
+        >
+        <div class="col-md-8">
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              id="availableInHotstarId"
+              type="checkbox"
+              formControlName="AvailableInHotstar"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row mb-2">
+        <div class="offset-md-2 col-md-4">
+          <button class="btn btn-primary mr-3"
+                  style="width:80px;"
+                  type="submit"
+                  [title]="movieForm.valid ? 'Save your entered data' : 'Disabled until the form data is valid'"
+                  [disabled]="!movieForm.valid">
+            Save
+          </button>
+          <button class="btn btn-outline-secondary mr-3"
+                  style="width:80px;"
+                  type="button"
+                  title="Cancel your edits"
+                  [routerLink]="['/movies']">
+            Cancel
+          </button>
+          <button class="btn btn-outline-warning"
+                  style="width:80px"
+                  type="button"
+                  title="Delete this product"
+                  (click)="deleteMovie()">
+            Delete
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<!-- <br />Dirty: {{ movieForm.dirty }} <br />Touched: {{ movieForm.touched }}
+<br />Valid: {{ movieForm.valid }} <br />Value: {{ movieForm.value | json }} -->

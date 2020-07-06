@@ -40,7 +40,7 @@
             </tr>
             <tr>
               <td class="text-center">Release Date</td>
-              <td>{{ movie.ReleaseDate }}</td>
+              <td>{{ movie.ReleaseDate | date:'longDate' }}</td>
             </tr>
             <tr>
               <td class="text-center">Imdb Link</td>
@@ -55,7 +55,7 @@
               <td>
                 <input
                   type="checkbox"
-                  checked="{{ movie.AvailableInAmazon }}"
+                  [checked]="movie.AvailableInAmazon == true"
                   readonly
                 />
               </td>
@@ -65,7 +65,7 @@
               <td>
                 <input
                   type="checkbox"
-                  value="{{ movie.AvailableInNetflix }}"
+                  [checked]="movie.AvailableInNetflix == true"
                   readonly
                 />
               </td>
@@ -75,7 +75,7 @@
               <td>
                 <input
                   type="checkbox"
-                  value="{{ movie.AvailableInHotstar }}"
+                  [checked]="movie.AvailableInHotstar == true"
                   readonly
                 />
               </td>
@@ -88,6 +88,13 @@
                 >
                   <i class="fa fa-chevron-left"></i> Back
                 </button>
+                <button
+                class="buttonsp btn-outline-primary"
+                style="width: 80px;"
+                [routerLink]="['/movies', movie.Id, 'edit']"
+              >
+                Edit
+              </button>
               </th>
             </tr>
           </tbody>

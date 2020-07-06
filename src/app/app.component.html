@@ -2,8 +2,9 @@
   <nav class="navbar navbar-expand navbar-light bg-light">
     <a class="navbar-band">{{ pageTitle }}</a>
     <ul class="nav nav-pills">
-      <li><a class="nav-link" [routerLink]= "['/welcome']">Home</a></li>
-      <li><a class="nav-link" [routerLink]= "['/movies']">Movies List</a></li>
+      <li><a class="nav-link" [routerLink]="['/welcome']">Home</a></li>
+      <li><a class="nav-link" [routerLink]="['/movies']">Movies List</a></li>
+      <li><a class="nav-link" [routerLink]="['/movies/0/edit']">Add a Movie</a></li>
     </ul>
   </nav>
   <router-outlet></router-outlet>

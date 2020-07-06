@@ -1,3 +1,7 @@
 input[type="checkbox"][readonly] {
   pointer-events: none;
 }
+
+.buttonsp {
+  margin-left: 25px;
+}

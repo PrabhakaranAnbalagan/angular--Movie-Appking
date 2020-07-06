@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { IMovie } from 'src/models/IMovies';
+import { IMovie } from 'src/models/IMovie';
 import { GenreType } from 'src/models/GenreType';
 import { LanguageType } from 'src/models/LanguageType';
 import { MoviesService } from 'src/service/movies.service';
@@ -11,7 +11,6 @@ import { MoviesService } from 'src/service/movies.service';
 })
 export class MovieListComponent implements OnInit {
   constructor(private moviesService: MoviesService) {
-    console.log('calling check');
   }
 
   title: string = 'Movie List';
@@ -61,7 +60,6 @@ export class MovieListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log('on Init method');
     this.moviesService.GetMoviesList().subscribe(
       (successOrnext) => {
         this.movies = successOrnext;

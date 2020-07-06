@@ -1,4 +1,11 @@
-import { Component, OnInit, OnChanges, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnChanges,
+  Input,
+  Output,
+  EventEmitter,
+} from '@angular/core';
 
 @Component({
   selector: 'ak-star',
@@ -18,5 +25,9 @@ export class StarComponent implements OnChanges {
 
   onClick() {
     this.notifyParent.emit(`The selected Rating value is ${this.rating}`);
+  }
+
+  AlertMessage() {
+    alert('Hello from Star Component' + this.starWidth);
   }
 }

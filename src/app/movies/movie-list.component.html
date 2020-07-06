@@ -52,10 +52,28 @@
             <td>{{ movie.Duration | DisplayDurationPipe: "." }}</td>
             <td>
               <ak-star
+                #starComponentVal
                 [rating]="movie.StarRating"
                 (notifyParent)="notify($event)"
               ></ak-star>
             </td>
+            <td>
+              <button
+                class="btn-outline-primary"
+                [routerLink]="['/movies', movie.Id, 'edit']"
+              >
+                Edit
+              </button>
+            </td>
+            <!-- INFO: using Template Reference Variable to access method from child component -->
+            <!-- <td>
+              <button
+                class="btn btn-warning"
+                (click)="starComponentVal.AlertMessage()"
+              >
+                click me
+              </button>
+            </td> -->
           </tr>
         </tbody>
       </table>

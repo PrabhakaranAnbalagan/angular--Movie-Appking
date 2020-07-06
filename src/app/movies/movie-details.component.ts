@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { IMovie } from 'src/models/IMovies';
+import { IMovie } from 'src/models/IMovie';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MoviesService } from 'src/service/movies.service';
 import { GenreType } from 'src/models/GenreType';
@@ -22,7 +22,6 @@ export class MovieDetailsComponent implements OnInit {
     private router: Router
   ) {
     this.movieId = +route.snapshot.paramMap.get('id'); //+ to convert to int -shortcut
-    //console.log(route.url)
   }
 
   ngOnInit(): void {

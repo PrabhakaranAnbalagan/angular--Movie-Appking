@@ -13,7 +13,7 @@ export interface IMovie {
   ReleaseDate: string;
   ImdbLink: string;
   WikiLink: string;
-  ImageUrl: string,
+  ImageUrl: string;
   AvailableInAmazon: boolean;
   AvailableInNetflix: boolean;
   AvailableInHotstar: boolean;
