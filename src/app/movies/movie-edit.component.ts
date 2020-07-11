@@ -8,12 +8,8 @@ import {
   FormControl,
   FormArray,
 } from '@angular/forms';
-import {
-  MatSnackBar,
-  MatSnackBarHorizontalPosition,
-  MatSnackBarVerticalPosition,
-} from '@angular/material/snack-bar';
 //import { debounceTime } from 'rxjs/operators';
+import { ToastService } from 'src/service/toastr.service';
 
 import { GenreType } from 'src/models/GenreType';
 import { LanguageType } from 'src/models/LanguageType';
@@ -62,9 +58,6 @@ export class MovieEditComponent implements OnInit, OnDestroy {
   pageTitle: string;
   movie: IMovie;
 
-  horizontalPosition: MatSnackBarHorizontalPosition = 'center';
-  verticalPosition: MatSnackBarVerticalPosition = 'top';
-
   //To Add validation in component
   directorMessage: string;
   messageList = {
@@ -79,7 +72,7 @@ export class MovieEditComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private service: MoviesService,
-    private _snackBar: MatSnackBar,
+    private toastr: ToastService,
     private router: Router
   ) {
     this.genreTypeOptions = this.ConvertEnumtoArray(this.genreTypes);
@@ -238,11 +231,7 @@ export class MovieEditComponent implements OnInit, OnDestroy {
         this.router.navigate(['/movies']);
       }
     } else {
-      this._snackBar.open('Please correct the validation errors.', 'close', {
-        duration: 2000,
-        horizontalPosition: this.horizontalPosition,
-        verticalPosition: this.verticalPosition,
-      });
+      this.toastr.Error('Error','Please correct the validation errors.');
     }
   }
 
@@ -250,10 +239,6 @@ export class MovieEditComponent implements OnInit, OnDestroy {
     // Reset the form to clear the flags
     this.movieForm.reset();
     this.router.navigate(['/movies']);
-    this._snackBar.open(message, 'close', {
-      duration: 2000,
-      horizontalPosition: this.horizontalPosition,
-      verticalPosition: this.verticalPosition,
-    });
+    this.toastr.Success('', message);
   }
 }

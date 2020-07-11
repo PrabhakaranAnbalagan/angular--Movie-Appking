@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ToastrModule } from 'ngx-toastr';
 
 import { MovieListComponent } from './movie-list.component';
 import { MovieDetailsComponent } from './movie-details.component';
@@ -35,6 +36,7 @@ import { MovieEditGuard } from './movie-edit.guard';
       },
     ]),
     ReactiveFormsModule,
+    ToastrModule.forRoot(),
   ],
 })
 export class MovieModule {}

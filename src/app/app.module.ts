@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { NoopAnimationsModule, BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
@@ -28,6 +28,7 @@ import { MovieModule } from './movies/movie.module';
       { path: '**', component: PageNotFoundComponent },
     ], {useHash: true}), //for server to fix refresh issue
     MovieModule,
+    BrowserAnimationsModule,
   ],
 
   declarations: [
